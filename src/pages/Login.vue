@@ -30,7 +30,6 @@ export default {
             }).then(r => {
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + r.data.jwt;
                 localStorage.setItem( 'token', JSON.stringify(r.data.jwt) );
-                console.log(axios.defaults.headers.common['Authorization']);
             });
 
             await router.push('/');

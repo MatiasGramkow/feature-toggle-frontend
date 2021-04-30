@@ -11,7 +11,7 @@
                     <router-link to="/features" class="nav-link">Features</router-link>
                 </li>
                 <li class="nav-item">
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="logoutState ? '' : deactivated_reasons['Logout']">
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="logoutState ? features['Logout'].description : features['Logout'].deactivation_reason">
                         <a style="cursor:pointer;" :class="{disabled: !logoutState}" @click="logout" class="nav-link">Logout</a>
                     </span>
                 </li>
@@ -19,12 +19,12 @@
 
             <template v-if="!auth">
                 <li class="nav-item">
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="loginState ? '' : deactivated_reasons['Login']">
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="loginState ? features['Login'].description : features['Login'].deactivation_reason">
                         <router-link :class="{ disabled: !loginState }" to="/login" class="nav-link" >Login</router-link>
                     </span>
                 </li>
                 <li class="nav-item">
-                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="registerState ? '' : deactivated_reasons['Register']">
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="registerState ? features['Register'].description : features['Register'].deactivation_reason">
                         <router-link :class="{ disabled: !registerState }" to="/register" class="nav-link" >Register</router-link>
                     </span>
                 </li>
@@ -49,13 +49,33 @@ export default {
             registerState: Boolean,
             forgotPasswordState: Boolean,
             resetPasswordState: Boolean,
-            deactivated_reasons: {
-                "Register": "",
-                "Login": "",
-                "ResetPassword": "",
-                "ForgotPassword": "",
-                "Logout": ""
-            }
+            halloweenFeature: Boolean,
+            features: {
+                "Register": {
+                    description: "",
+                    deactivation_reason: ""
+                },
+                "Login": {
+                    description: "",
+                    deactivation_reason: ""
+                },
+                "ResetPassword": {
+                    description: "",
+                    deactivation_reason: ""
+                },
+                "ForgotPassword": {
+                    description: "s",
+                    deactivation_reason: "s"
+                },
+                "Logout": {
+                    description: "",
+                    deactivation_reason: ""
+                },
+                "HalloweenFeature": {
+                    description: "",
+                    deactivation_reason: ""
+                },
+            },
         }
     },
     methods: {
@@ -65,14 +85,17 @@ export default {
                 .then(response => {
                     response.data.forEach(element => {
                         let storeName = element.name.replace(/\s/g, '');
-                        this.deactivated_reasons[storeName] = element.deactivation_reason;
-                        store.dispatch(`set${storeName}`, element.is_active, element.deactivation_reason);
+                        this.features[storeName].deactivation_reason = element.deactivation_reason;
+                        this.features[storeName].description = element.description;
+                        store.dispatch(`set${storeName}`, element.is_active);                        
                     });
                     this.logoutState = store.getters.logout;
                     this.loginState = store.getters.login;
                     this.registerState = store.getters.register;
                     this.forgotPasswordState = store.getters.forgotPassword;
                     this.resetPasswordState = store.getters.resetPassword;
+                    this.halloweenFeature = store.getters.halloweenFeature;
+
                 });
         }
     },
