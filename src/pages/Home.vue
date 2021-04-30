@@ -15,7 +15,7 @@
         <li style="color:green;">Samantha wants to turn on and off the register user functionality</li>
         <li style="color:green;">Bjórn would like to turn off the reset password feature as the SMTP server broke.</li>
         <li style="color:green;">Samantha would like a way to clearly communicate which functions are working and which are not.</li>
-        <li style="color:green;" >Bjórn would like to tell the users what went wrong and why that feature is disabled	</li>
+        <li style="color:green;">Bjórn would like to tell the users what went wrong and why that feature is disabled	</li>
         <br>
         <li>Samantha would like to be able to set a time period login should be disabled</li>
         <li>Samantha would like to define weekly schedules for when features should be disabled.</li>

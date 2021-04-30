@@ -39,6 +39,8 @@ import {computed} from 'vue';
 import {useStore} from 'vuex';
 import {useRouter} from 'vue-router';
 import axios from 'axios';
+import moment from 'moment';
+
 
 export default {
     name: "Nav",
@@ -80,14 +82,38 @@ export default {
     },
     methods: {
         loadStates() {
+            
             const store = useStore();
             axios.get('features', {})
                 .then(response => {
+                    var newStartDate = null;
+                    var newStopDate = null;
+                    var today = new Date();
                     response.data.forEach(element => {
                         let storeName = element.name.replace(/\s/g, '');
                         this.features[storeName].deactivation_reason = element.deactivation_reason;
                         this.features[storeName].description = element.description;
                         store.dispatch(`set${storeName}`, element.is_active);                        
+
+                        /*
+                        if (element.start_date != "" || element.stop_date != "") {
+                            // Start logic
+                            if (element.start_date != "") {
+                                newStartDate = new Date(element.start_date);
+                            }
+                            if (element.stop_date != "") {
+                                newStopDate = new Date(element.stop_date);
+                            }
+                            
+                            // Success criteria
+                            if ((newStartDate <= today && newStopDate > today) || 
+                                (newStartDate <= today && newStopDate == null)) {
+                                store.dispatch(`set${storeName}`, true);                        
+                            }
+                        } else {
+                            store.dispatch(`set${storeName}`, element.is_active);                        
+                        }
+                        */
                     });
                     this.logoutState = store.getters.logout;
                     this.loginState = store.getters.login;

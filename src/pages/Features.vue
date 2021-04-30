@@ -39,6 +39,8 @@
                     <th scope="col">Active</th>
                     <th scope="col">Description</th>
                     <th scope="col">Deactivation Reason</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">Stop Date</th>
                     <th scope="col">Settings</th>
                 </tr>
             </thead>
@@ -49,6 +51,8 @@
                     <td>{{feature.is_active}}</td>               
                     <td>{{feature.description}}</td>
                     <td>{{feature.deactivation_reason}}</td>
+                    <td>{{dateTime(feature.start_date)}}</td>
+                    <td>{{dateTime(feature.stop_date)}}</td>
                     <td>
                         <div><a @click="Modal(feature)" style="cursor:pointer;">Update</a></div>
                     </td>
@@ -64,8 +68,10 @@ import {ref, onMounted, reactive} from 'vue';
 import axios from 'axios';
 import {useStore} from 'vuex';
 import {useRouter} from "vue-router";
+import moment from 'moment';
 
 export default {
+    
     name: "Features",
     data() {
         return { 
@@ -80,6 +86,9 @@ export default {
         }
     },
     methods: {
+        dateTime(value) {
+            return moment(value).format('YYYY-MM-DD');
+        },
         closeModal() {
             this.showModal = false;
         },
